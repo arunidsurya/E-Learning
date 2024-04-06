@@ -4,6 +4,7 @@ export const app = express();
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { ErrorMiddleware } from "./middleware/error";
+import userRouter from "./routes/user.route";
 
 //body-paser
 app.use(express.json({ limit: "50mb" }));
@@ -17,6 +18,9 @@ app.use(
     origin: process.env.ORIGIN,
   })
 );
+
+// routes
+app.use("/api/v1", userRouter);
 
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
   console.log("welcome to server");
