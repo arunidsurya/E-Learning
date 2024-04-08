@@ -28,9 +28,12 @@ export const registrationUser = CatchAsycError(
   async (req: Request, res: Response, next: NextFunction) => {
     // console.log("reached here");
     try {
+      console.log("Reached Link");
       const { name, email, password } = req.body;
 
       const isEmailExist = await userModel.findOne({ email });
+      console.log("isEmailExist:", isEmailExist);
+
       if (isEmailExist) {
         return next(new ErrorHandler("Email already exist", 400));
       }
@@ -39,10 +42,10 @@ export const registrationUser = CatchAsycError(
         email,
         password,
       };
-      // console.log(user);
+      console.log(user);
       const activationToken = createActivationToken(user);
       const activationCode = activationToken.activationCode;
-
+      console.log("token created");
       //   console.log(activationCode, activationToken);
 
       const data = { user: { name: user.name }, activationCode };
@@ -60,15 +63,18 @@ export const registrationUser = CatchAsycError(
           template: "activation-mail.ejs",
           data,
         });
+        console.log("Email sent");
         res.status(201).json({
-          sucess: true,
+          success: true,
           message: "Please check your email to activate your account",
           activationToken: activationToken.token,
         });
       } catch (error: any) {
+        console.log("errr1");
         return next(new ErrorHandler(error.message, 400));
       }
     } catch (error: any) {
+      console.log("errr2");
       return next(new ErrorHandler(error.mesage, 400));
     }
   }
@@ -129,10 +135,11 @@ export const activateUser = CatchAsycError(
         name,
         email,
         password,
+        isVerified: true,
       });
 
       res.status(201).json({
-        sucess: true,
+        success: true,
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));

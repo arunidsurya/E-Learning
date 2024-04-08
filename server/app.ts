@@ -13,11 +13,33 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 
 //cors - cross origin resource sharing
+
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    credentials: true,
+    origin: "http://localhost:3000",
   })
 );
+
+// app.use(
+//   cors({
+//     origin: process.env.ORIGIN,
+//   })
+// );
+// const allowedOrigins = ["http://localhost:3000"]; // Add your frontend URL here
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       // Check if the origin is allowed
+//       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true, // Allow credentials
+//   })
+// );
 
 // routes
 app.use("/api/v1", userRouter);

@@ -7,11 +7,11 @@ export default {
         Poppins: ["var(--font--Poppins)"],
         Josefin: ["var(--font-Josefin)"],
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+      // backgroundImage: {
+      //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      //   "gradient-conic":
+      //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      // },
       screens: {
         "1000px": "1000px",
         "1100px": "1100px",
