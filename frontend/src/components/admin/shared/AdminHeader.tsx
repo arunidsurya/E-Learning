@@ -1,4 +1,5 @@
 import { Menu, Popover, Transition } from "@headlessui/react";
+import axios from "axios";
 import classNames from "classnames";
 import React, { Fragment } from "react";
 import {
@@ -10,6 +11,25 @@ import { useNavigate } from "react-router-dom";
 
 const AdminHeader: React.FC = () => {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    axios
+      .get("http://localhost:5000/api/v1/admin_logout", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.success) {
+          console.log(response.data);
+          localStorage.removeItem("admin");
+          localStorage.removeItem("admin_accessToken");
+          navigate("/admin_login");
+        }
+      })
+      .catch((error) => {
+        console.error("Error during logout:", error);
+      });
+  };
 
   return (
     <div className="bg-white h-16 px-4 flex justify-between items-center border-b border-gray-200 ">
@@ -148,7 +168,7 @@ const AdminHeader: React.FC = () => {
                 <Menu.Item>
                   {({ active }) => (
                     <div
-                      onClick={() => navigate("/admin/logout")}
+                      onClick={handleLogout}
                       className={classNames(
                         active && "bg-gray-100",
                         "text-gray-700 focus:bg-gray-200 cursor-pointer rounded-sm px-4 py-2"

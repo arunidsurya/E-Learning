@@ -9,6 +9,7 @@ import axios from "axios";
 const UserRegister: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
@@ -25,7 +26,7 @@ const UserRegister: React.FC = () => {
     axios
       .post(
         "http://localhost:5000/api/v1/registration",
-        { name, email, password },
+        { name, email, gender, password },
         {
           withCredentials: true,
         }
@@ -111,6 +112,18 @@ const UserRegister: React.FC = () => {
                   className="w-full border border-gray-300 rounded h-10 "
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                <label htmlFor="gender">Gender</label>
+                <select
+                  id="gender"
+                  className="w-full border border-gray-300 rounded h-10"
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"

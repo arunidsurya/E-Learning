@@ -11,6 +11,8 @@ import UserRegister from "./components/user/userRegister/Register";
 import UserActivation from "./components/user/userActivation/UserActivation";
 import AboutPage from "./components/user/about/AboutPage";
 import Policy from "./components/user/policy/Policy";
+import ProtectiveRoute from "./components/admin/utils/protectiveRoute";
+import AdminLogin from "./components/admin/login/AdminLogin";
 
 const App: React.FC = () => {
   return (
@@ -26,11 +28,29 @@ const App: React.FC = () => {
             <Route path="about/" element={<AboutPage />} />
             <Route path="policy/" element={<Policy />} />
           </Route>
+
           <Route path="admin/" element={<AdminLayout />}>
-            <Route index element={<AdminDashBoard />} />
-            <Route path="users/" element={<UsersView />} />
+            <Route
+              index
+              element={
+                <ProtectiveRoute>
+                  <AdminDashBoard />
+                </ProtectiveRoute>
+              }
+            />
+            <Route
+              path="users/"
+              element={
+                <ProtectiveRoute>
+                  <UsersView />
+                </ProtectiveRoute>
+              }
+            />
           </Route>
+
           <Route path="instructor/" element="" />
+
+          <Route path="admin_login/" element={<AdminLogin />} />
         </Routes>
       </Router>
     </>

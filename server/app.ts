@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
+import adminRouter from "./routes/admin.route";
 
 //body-paser
 app.use(express.json({ limit: "50mb" }));
@@ -26,23 +27,9 @@ app.use(
 //     origin: process.env.ORIGIN,
 //   })
 // );
-// const allowedOrigins = ["http://localhost:3000"]; // Add your frontend URL here
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       // Check if the origin is allowed
-//       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true, // Allow credentials
-//   })
-// );
 
-// routes
 app.use("/api/v1", userRouter);
+app.use("/api/v1", adminRouter);
 
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
   console.log("welcome to server");

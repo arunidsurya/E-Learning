@@ -1,5 +1,6 @@
 require("dotenv").config();
 import { Response } from "express";
+import { IAdmin } from "../models/admin.model";
 import { IUser } from "../models/user.model";
 import { redis } from "./redis";
 import { json } from "stream/consumers";
@@ -56,6 +57,32 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
   res.status(statusCode).json({
     success: true,
     user,
+    accessToken,
+  });
+};
+
+export const sendAdminToken = (
+  admin: IAdmin,
+  statusCode: number,
+  res: Response
+) => {
+  const accessToken = admin.SignAccessToken();
+  const refreshToken = admin.SignRefreshToken();
+
+  // Upload session to Redis
+  redis.set(admin._id, JSON.stringify(admin) as any);
+
+  // Only set secure to true in production
+  // if (process.env.NODE_ENV === "production") {
+  //   accesstokenOptions.secure = true;
+  // }
+
+  res.cookie("admin_access_token", accessToken, accesstokenOptions);
+  res.cookie("admin_refresh_token", refreshToken, refreshtokenOptions);
+
+  res.status(statusCode).json({
+    success: true,
+    admin,
     accessToken,
   });
 };

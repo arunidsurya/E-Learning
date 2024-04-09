@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 const emailRegexPattern: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export interface IUser extends Document {
+export interface IAdmin extends Document {
   name: string;
   email: string;
   gender: string;
@@ -15,14 +15,12 @@ export interface IUser extends Document {
     url: string;
   };
   isVerified: boolean;
-  isBlocked: boolean;
-  courses: Array<{ courseId: string }>;
   comparePassword: (password: string) => Promise<boolean>;
   SignAccessToken: () => string;
   SignRefreshToken: () => string;
 }
 
-const userSchema: Schema<IUser> = new mongoose.Schema(
+const adminSchema: Schema<IAdmin> = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -55,22 +53,13 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    },
-    courses: [
-      {
-        courseId: String,
-      },
-    ],
   },
   { timestamps: true }
 );
 
 // Hash password before saving
 
-userSchema.pre<IUser>("save", async function (next) {
+adminSchema.pre<IAdmin>("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
@@ -79,26 +68,26 @@ userSchema.pre<IUser>("save", async function (next) {
 });
 
 // sign access token
-userSchema.methods.SignAccessToken = function () {
+adminSchema.methods.SignAccessToken = function () {
   return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN || "", {
     expiresIn: "5m",
   });
 };
 
 //sign refersh token
-userSchema.methods.SignRefreshToken = function () {
+adminSchema.methods.SignRefreshToken = function () {
   return jwt.sign({ id: this._id }, process.env.REFERSH_TOKEN || "", {
     expiresIn: "3d",
   });
 };
 
 //compare password
-userSchema.methods.comparePassword = async function (
+adminSchema.methods.comparePassword = async function (
   enteredPassword: string
 ): Promise<boolean> {
   return await bycrypt.compare(enteredPassword, this.password);
 };
 
-const userModel: Model<IUser> = mongoose.model("User", userSchema);
+const adminModel: Model<IAdmin> = mongoose.model("Admin", adminSchema);
 
-export default userModel;
+export default adminModel;

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
   return (
-    <div className="bg-gray-200 h-52 px-10 flex justify-between items-center border-b border-gray-200 ">
-      <div className="flex flex-col justify-between">
+    <div className="bg-white-200 h-40 px-10 flex justify-between items-center border-t border-gray-300 ">
+      <div className="flex flex-col justify-between ">
         <h4 className="text-lg font-semibold">About</h4>
         <Link to={"/"} className="hover:text-gray-500">
           Our Story
@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
           FAQ
         </Link>
       </div>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between ">
         <h4 className="text-lg font-semibold">Quick links</h4>
         <Link to={"/"} className="hover:text-gray-500">
           courses
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
           github
         </Link>
       </div>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between ">
         <h4 className="text-lg font-semibold">contact Ino</h4>
         <h5>call us:+914654854154</h5>
         <h5>Address:East Menington,Lasvegas,CA</h5>

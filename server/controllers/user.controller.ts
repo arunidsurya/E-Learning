@@ -20,6 +20,7 @@ import cloudinary from "cloudinary";
 interface IRegistrationBody {
   name: string;
   email: string;
+  gender: string;
   password: string;
   avatar?: string;
 }
@@ -29,7 +30,7 @@ export const registrationUser = CatchAsycError(
     // console.log("reached here");
     try {
       console.log("Reached Link");
-      const { name, email, password } = req.body;
+      const { name, email, gender, password } = req.body;
 
       const isEmailExist = await userModel.findOne({ email });
       console.log("isEmailExist:", isEmailExist);
@@ -40,6 +41,7 @@ export const registrationUser = CatchAsycError(
       const user: IRegistrationBody = {
         name,
         email,
+        gender,
         password,
       };
       console.log(user);
@@ -124,7 +126,7 @@ export const activateUser = CatchAsycError(
         return next(new ErrorHandler("Invalid activation code", 400));
       }
 
-      const { name, email, password } = newUser.user;
+      const { name, email, gender, password } = newUser.user;
 
       const existUser = await userModel.findOne({ email });
 
@@ -134,6 +136,7 @@ export const activateUser = CatchAsycError(
       const user = await userModel.create({
         name,
         email,
+        gender,
         password,
         isVerified: true,
       });
